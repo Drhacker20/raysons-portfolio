@@ -3,6 +3,17 @@ import rayson from "@/assets/rayson.jpg.asset.json";
 import lfLogin from "@/assets/lostfound-login.png.asset.json";
 import lfSignup from "@/assets/lostfound-signup.png.asset.json";
 import lfHome from "@/assets/lostfound-home.png.asset.json";
+import lf8 from "@/assets/lf-8.png.asset.json";
+import lf10 from "@/assets/lf-10.png.asset.json";
+import lf11 from "@/assets/lf-11.png.asset.json";
+import lf12 from "@/assets/lf-12.png.asset.json";
+import lf14 from "@/assets/lf-14.png.asset.json";
+import lf15 from "@/assets/lf-15.png.asset.json";
+import lf16 from "@/assets/lf-16.png.asset.json";
+import lf17 from "@/assets/lf-17.png.asset.json";
+import lf18 from "@/assets/lf-18.png.asset.json";
+import lf19 from "@/assets/lf-19.png.asset.json";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,7 +37,11 @@ const projects = [
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
-    images: [lfHome.url, lfLogin.url, lfSignup.url],
+    images: [
+      lfHome.url, lfLogin.url, lfSignup.url,
+      lf8.url, lf10.url, lf11.url, lf12.url,
+      lf14.url, lf15.url, lf16.url, lf17.url, lf18.url, lf19.url,
+    ],
   },
   {
     n: "02",
@@ -53,6 +68,55 @@ const skills = [
   "Android Studio", "Database Management", "WordPress", "Data Entry",
   "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
 ];
+
+function ProjectCarousel({ images, title }: { images: string[]; title: string }) {
+  const [idx, setIdx] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
+    return () => clearInterval(id);
+  }, [images.length]);
+  return (
+    <div className="relative">
+      <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
+        <div
+          className="flex transition-transform duration-700 ease-out"
+          style={{ transform: `translateX(-${idx * 100}%)` }}
+        >
+          {images.map((src, i) => (
+            <div key={src} className="min-w-full flex items-center justify-center bg-background aspect-[9/16] sm:aspect-[16/10] p-4">
+              <img src={src} alt={`${title} screenshot ${i + 1}`} className="max-h-full max-w-full object-contain rounded-lg" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${i === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"}`}
+            />
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+            className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
+            aria-label="Previous"
+          >‹</button>
+          <button
+            onClick={() => setIdx((i) => (i + 1) % images.length)}
+            className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
+            aria-label="Next"
+          >›</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Index() {
   return (
@@ -219,13 +283,7 @@ function Index() {
                 </div>
                 <div className="md:col-span-7">
                   {p.images.length > 0 ? (
-                    <div className="grid grid-cols-3 gap-3">
-                      {p.images.map((src) => (
-                        <div key={src} className="relative overflow-hidden rounded-xl border border-border bg-background aspect-[9/16]">
-                          <img src={src} alt={p.title} className="w-full h-full object-cover" loading="lazy" />
-                        </div>
-                      ))}
-                    </div>
+                    <ProjectCarousel images={p.images} title={p.title} />
                   ) : (
                     <div className="h-full min-h-[140px] rounded-xl border border-dashed border-border bg-background/40 flex items-center justify-center text-xs uppercase tracking-widest text-muted-foreground">
                       Screenshots coming soon
@@ -277,14 +335,17 @@ function Index() {
           </div>
           <div className="md:col-span-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
             <p>
-              I'm Rayson — a BSIT 4th-year student at Nueva Ecija University of
-              Science and Technology, based in Bongabon, Nueva Ecija. I enjoy turning
-              real-world problems into thoughtful applications, whether that's helping
-              communities reunite with lost loved ones or making learning more accessible.
+              I'm Rayson — an Information Technology student passionate about web and
+              mobile application development. I have experience building web-based
+              systems, Android applications, and database-driven solutions through
+              freelance, academic, and capstone projects. My skills include PHP, MySQL,
+              Java, REST APIs, database management, and system development.
             </p>
             <p>
-              My toolkit spans PHP, MySQL, Java, and modern JavaScript. I care about
-              clarity, sturdy data models, and interfaces that feel calm to use.
+              Through these projects, I have developed strong problem-solving, testing,
+              troubleshooting, data organization, and product listing skills. I am eager
+              to learn new technologies, improve my expertise, and create reliable
+              digital solutions that deliver value to users and organizations.
             </p>
           </div>
         </div>

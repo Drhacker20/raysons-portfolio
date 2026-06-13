@@ -234,13 +234,7 @@ function Index() {
                 </div>
                 <div className="md:col-span-7">
                   {p.images.length > 0 ? (
-                    <div className="grid grid-cols-3 gap-3">
-                      {p.images.map((src) => (
-                        <div key={src} className="relative overflow-hidden rounded-xl border border-border bg-background aspect-[9/16]">
-                          <img src={src} alt={p.title} className="w-full h-full object-cover" loading="lazy" />
-                        </div>
-                      ))}
-                    </div>
+                    <ProjectCarousel images={p.images} title={p.title} />
                   ) : (
                     <div className="h-full min-h-[140px] rounded-xl border border-dashed border-border bg-background/40 flex items-center justify-center text-xs uppercase tracking-widest text-muted-foreground">
                       Screenshots coming soon
@@ -292,14 +286,17 @@ function Index() {
           </div>
           <div className="md:col-span-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
             <p>
-              I'm Rayson — a BSIT 4th-year student at Nueva Ecija University of
-              Science and Technology, based in Bongabon, Nueva Ecija. I enjoy turning
-              real-world problems into thoughtful applications, whether that's helping
-              communities reunite with lost loved ones or making learning more accessible.
+              I'm Rayson — an Information Technology student passionate about web and
+              mobile application development. I have experience building web-based
+              systems, Android applications, and database-driven solutions through
+              freelance, academic, and capstone projects. My skills include PHP, MySQL,
+              Java, REST APIs, database management, and system development.
             </p>
             <p>
-              My toolkit spans PHP, MySQL, Java, and modern JavaScript. I care about
-              clarity, sturdy data models, and interfaces that feel calm to use.
+              Through these projects, I have developed strong problem-solving, testing,
+              troubleshooting, data organization, and product listing skills. I am eager
+              to learn new technologies, improve my expertise, and create reliable
+              digital solutions that deliver value to users and organizations.
             </p>
           </div>
         </div>

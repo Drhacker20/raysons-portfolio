@@ -69,6 +69,55 @@ const skills = [
   "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
 ];
 
+function ProjectCarousel({ images, title }: { images: string[]; title: string }) {
+  const [idx, setIdx] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
+    return () => clearInterval(id);
+  }, [images.length]);
+  return (
+    <div className="relative">
+      <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
+        <div
+          className="flex transition-transform duration-700 ease-out"
+          style={{ transform: `translateX(-${idx * 100}%)` }}
+        >
+          {images.map((src, i) => (
+            <div key={src} className="min-w-full flex items-center justify-center bg-background aspect-[9/16] sm:aspect-[16/10] p-4">
+              <img src={src} alt={`${title} screenshot ${i + 1}`} className="max-h-full max-w-full object-contain rounded-lg" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${i === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"}`}
+            />
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+            className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
+            aria-label="Previous"
+          >‹</button>
+          <button
+            onClick={() => setIdx((i) => (i + 1) % images.length)}
+            className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
+            aria-label="Next"
+          >›</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground font-[var(--font-sans)] antialiased selection:bg-primary/30 relative overflow-x-hidden">

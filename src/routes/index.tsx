@@ -3,6 +3,17 @@ import rayson from "@/assets/rayson.jpg.asset.json";
 import lfLogin from "@/assets/lostfound-login.png.asset.json";
 import lfSignup from "@/assets/lostfound-signup.png.asset.json";
 import lfHome from "@/assets/lostfound-home.png.asset.json";
+import lf8 from "@/assets/lf-8.png.asset.json";
+import lf10 from "@/assets/lf-10.png.asset.json";
+import lf11 from "@/assets/lf-11.png.asset.json";
+import lf12 from "@/assets/lf-12.png.asset.json";
+import lf14 from "@/assets/lf-14.png.asset.json";
+import lf15 from "@/assets/lf-15.png.asset.json";
+import lf16 from "@/assets/lf-16.png.asset.json";
+import lf17 from "@/assets/lf-17.png.asset.json";
+import lf18 from "@/assets/lf-18.png.asset.json";
+import lf19 from "@/assets/lf-19.png.asset.json";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,7 +37,11 @@ const projects = [
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
-    images: [lfHome.url, lfLogin.url, lfSignup.url],
+    images: [
+      lfHome.url, lfLogin.url, lfSignup.url,
+      lf8.url, lf10.url, lf11.url, lf12.url,
+      lf14.url, lf15.url, lf16.url, lf17.url, lf18.url, lf19.url,
+    ],
   },
   {
     n: "02",

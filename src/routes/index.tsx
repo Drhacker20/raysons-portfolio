@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import rayson from "@/assets/rayson.jpg.asset.json";
+import lfLogin from "@/assets/lostfound-login.png.asset.json";
+import lfSignup from "@/assets/lostfound-signup.png.asset.json";
+import lfHome from "@/assets/lostfound-home.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,6 +26,7 @@ const projects = [
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
+    images: [lfHome.url, lfLogin.url, lfSignup.url],
   },
   {
     n: "02",
@@ -31,6 +35,7 @@ const projects = [
       "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations.",
     stack: ["PHP", "MySQL", "AI Chatbot"],
     kind: "Web · Healthcare",
+    images: [] as string[],
   },
   {
     n: "03",
@@ -39,7 +44,14 @@ const projects = [
       "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
     stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
     kind: "Web · LMS",
+    images: [] as string[],
   },
+];
+
+const skills = [
+  "PHP", "MySQL", "Java", "HTML/CSS", "JavaScript", "REST APIs",
+  "Android Studio", "Database Management", "WordPress", "Data Entry",
+  "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
 ];
 
 function Index() {

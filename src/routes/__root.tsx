@@ -81,9 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Portfolio of Rayson Jay F. Bayan — full-stack developer building web and mobile applications with PHP, MySQL, Java, and modern web technologies." },
       { name: "author", content: "Rayson Jay F. Bayan" },
       { property: "og:title", content: "Rayson Jay Bayan — Developer Portfolio" },
-      { property: "og:description", content: "Full-stack developer building web and mobile applications." },
+      { property: "og:description", content: "Portfolio of Rayson Jay F. Bayan — full-stack developer building web and mobile applications with PHP, MySQL, Java, and modern web technologies." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Rayson Jay Bayan — Developer Portfolio" },
+      { name: "twitter:description", content: "Portfolio of Rayson Jay F. Bayan — full-stack developer building web and mobile applications with PHP, MySQL, Java, and modern web technologies." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db3d999a-566b-4de8-9a61-0e00e4e441fc/id-preview-eed57a03--a5fe0c68-23e7-4f26-9184-6bdc443b9384.lovable.app-1781354770187.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/db3d999a-566b-4de8-9a61-0e00e4e441fc/id-preview-eed57a03--a5fe0c68-23e7-4f26-9184-6bdc443b9384.lovable.app-1781354770187.png" },
     ],
     links: [
       {

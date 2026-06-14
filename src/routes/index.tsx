@@ -31,6 +31,18 @@ import hc9 from "@/assets/hc-194935.png.asset.json";
 import hc10 from "@/assets/hc-200352.png.asset.json";
 import { useEffect, useRef, useState } from "react";
 
+const ADMIN_VIDEO =
+  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201223.mp4";
+const STAFF_VIDEO =
+  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201812.mp4";
+
+type MediaItem = {
+  src: string;
+  kind: "image" | "video";
+  label?: string;
+  highlight?: boolean;
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -45,7 +57,15 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const projects = [
+const projects: {
+  n: string;
+  title: string;
+  blurb: string;
+  stack: string[];
+  kind: string;
+  images: MediaItem[];
+  orientation: "portrait" | "landscape";
+}[] = [
   {
     n: "01",
     title: "Healthcare Web Application with AI Chatbot",
@@ -53,8 +73,21 @@ const projects = [
       "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations.",
     stack: ["PHP", "MySQL", "AI Chatbot"],
     kind: "Web · Healthcare",
-    images: [hc1.url, hc2.url, hc3.url, hc4.url, hc5.url, hc6.url, hc7.url, hc8.url, hc9.url, hc10.url],
-    orientation: "landscape" as const,
+    images: [
+      { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true },
+      { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough" },
+      { src: hc1.url, kind: "image", label: "Client View" },
+      { src: hc2.url, kind: "image", label: "Client View" },
+      { src: hc3.url, kind: "image", label: "Client View" },
+      { src: hc4.url, kind: "image", label: "Client View" },
+      { src: hc5.url, kind: "image", label: "Client View" },
+      { src: hc6.url, kind: "image", label: "Client View" },
+      { src: hc7.url, kind: "image", label: "Client View" },
+      { src: hc8.url, kind: "image", label: "Client View" },
+      { src: hc9.url, kind: "image", label: "Client View" },
+      { src: hc10.url, kind: "image", label: "Client View" },
+    ],
+    orientation: "landscape",
   },
   {
     n: "02",
@@ -63,8 +96,8 @@ const projects = [
       "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
     stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
     kind: "Web · LMS",
-    images: [] as string[],
-    orientation: "landscape" as const,
+    images: [],
+    orientation: "landscape",
   },
   {
     n: "03",
@@ -74,12 +107,27 @@ const projects = [
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
     images: [
-      lfHome.url, lfLogin.url, lfSignup.url,
-      lf8.url, lf10.url, lf11.url, lf12.url,
-      lf14.url, lf15.url, lf16.url, lf17.url, lf18.url, lf19.url,
-      lf20.url, lf21.url, lf22.url, lf23.url, lf24.url, lf26.url,
+      { src: lfHome.url, kind: "image" },
+      { src: lfLogin.url, kind: "image" },
+      { src: lfSignup.url, kind: "image" },
+      { src: lf8.url, kind: "image" },
+      { src: lf10.url, kind: "image" },
+      { src: lf11.url, kind: "image" },
+      { src: lf12.url, kind: "image" },
+      { src: lf14.url, kind: "image" },
+      { src: lf15.url, kind: "image" },
+      { src: lf16.url, kind: "image" },
+      { src: lf17.url, kind: "image" },
+      { src: lf18.url, kind: "image" },
+      { src: lf19.url, kind: "image" },
+      { src: lf20.url, kind: "image" },
+      { src: lf21.url, kind: "image" },
+      { src: lf22.url, kind: "image" },
+      { src: lf23.url, kind: "image" },
+      { src: lf24.url, kind: "image" },
+      { src: lf26.url, kind: "image" },
     ],
-    orientation: "portrait" as const,
+    orientation: "portrait",
   },
 ];
 
@@ -89,14 +137,16 @@ const skills = [
   "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
 ];
 
-function ProjectCarousel({ images, title, orientation = "landscape" }: { images: string[]; title: string; orientation?: "portrait" | "landscape" }) {
+function ProjectCarousel({ images, title, orientation = "landscape" }: { images: MediaItem[]; title: string; orientation?: "portrait" | "landscape" }) {
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  const hasVideo = images.some((m) => m.kind === "video");
   useEffect(() => {
+    if (hasVideo) return;
     const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
     return () => clearInterval(id);
-  }, [images.length]);
-  const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[240px] sm:h-[320px]";
+  }, [images.length, hasVideo]);
+  const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
   return (
     <div className="relative">
       <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
@@ -104,21 +154,63 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
           className="flex transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
-          {images.map((src, i) => (
-            <div key={src} className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4`}>
-              <img src={src} alt={`${title} screenshot ${i + 1}`} className="max-h-full max-w-full object-contain rounded-lg" loading="lazy" />
+          {images.map((item, i) => (
+            <div
+              key={`${item.src}-${i}`}
+              className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4 relative ${
+                item.highlight ? "ring-2 ring-primary/70 ring-inset" : ""
+              }`}
+            >
+              {item.highlight && (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+                  <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-primary-foreground bg-primary rounded-full px-2.5 py-1 font-bold shadow-[0_0_24px_-4px_var(--color-primary)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground animate-pulse" />
+                    {item.label || "Featured"}
+                  </div>
+                </>
+              )}
+              {item.kind === "video" && !item.highlight && (
+                <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] bg-foreground text-background rounded-full px-2.5 py-1 font-semibold backdrop-blur-sm">
+                  ▶ Video
+                </div>
+              )}
+              {item.kind === "video" ? (
+                <video
+                  src={item.src}
+                  controls
+                  className="max-h-full max-w-full object-contain rounded-lg"
+                  preload="metadata"
+                  playsInline
+                  aria-label={`${title} — ${item.label ?? "video"}`}
+                />
+              ) : (
+                <img
+                  src={item.src}
+                  alt={`${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
+                  className="max-h-full max-w-full object-contain rounded-lg"
+                  loading="lazy"
+                />
+              )}
+              {item.label && !item.highlight && (
+                <div className="absolute bottom-3 right-3 z-10 text-[10px] uppercase tracking-[0.25em] bg-background/80 text-foreground backdrop-blur-sm border border-border rounded-full px-2.5 py-1">
+                  {item.label}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
       <div className="mt-3 flex items-center justify-between">
-        <div className="flex gap-1.5">
-          {images.map((_, i) => (
+        <div className="flex gap-1.5 flex-wrap">
+          {images.map((item, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all ${i === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"}`}
+              aria-label={`Go to slide ${i + 1}: ${item.label ?? `${item.kind} ${i + 1}`}`}
+              className={`h-1.5 rounded-full transition-all ${
+                i === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"
+              }`}
             />
           ))}
         </div>

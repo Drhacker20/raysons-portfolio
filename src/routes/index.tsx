@@ -13,6 +13,12 @@ import lf16 from "@/assets/lf-16.png.asset.json";
 import lf17 from "@/assets/lf-17.png.asset.json";
 import lf18 from "@/assets/lf-18.png.asset.json";
 import lf19 from "@/assets/lf-19.png.asset.json";
+import lf20 from "@/assets/lf-20.png.asset.json";
+import lf21 from "@/assets/lf-21.png.asset.json";
+import lf22 from "@/assets/lf-22.png.asset.json";
+import lf23 from "@/assets/lf-23.png.asset.json";
+import lf24 from "@/assets/lf-24.png.asset.json";
+import lf26 from "@/assets/lf-26.png.asset.json";
 import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -41,6 +47,7 @@ const projects = [
       lfHome.url, lfLogin.url, lfSignup.url,
       lf8.url, lf10.url, lf11.url, lf12.url,
       lf14.url, lf15.url, lf16.url, lf17.url, lf18.url, lf19.url,
+      lf20.url, lf21.url, lf22.url, lf23.url, lf24.url, lf26.url,
     ],
   },
   {
@@ -84,7 +91,7 @@ function ProjectCarousel({ images, title }: { images: string[]; title: string })
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
           {images.map((src, i) => (
-            <div key={src} className="min-w-full flex items-center justify-center bg-background aspect-[9/16] sm:aspect-[16/10] p-4">
+            <div key={src} className="min-w-full flex items-center justify-center bg-background h-[520px] p-4">
               <img src={src} alt={`${title} screenshot ${i + 1}`} className="max-h-full max-w-full object-contain rounded-lg" loading="lazy" />
             </div>
           ))}

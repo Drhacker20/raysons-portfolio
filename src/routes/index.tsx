@@ -19,6 +19,16 @@ import lf22 from "@/assets/lf-22.png.asset.json";
 import lf23 from "@/assets/lf-23.png.asset.json";
 import lf24 from "@/assets/lf-24.png.asset.json";
 import lf26 from "@/assets/lf-26.png.asset.json";
+import hc1 from "@/assets/hc-194701.png.asset.json";
+import hc2 from "@/assets/hc-194721.png.asset.json";
+import hc3 from "@/assets/hc-194739.png.asset.json";
+import hc4 from "@/assets/hc-194749.png.asset.json";
+import hc5 from "@/assets/hc-194837.png.asset.json";
+import hc6 from "@/assets/hc-194853.png.asset.json";
+import hc7 from "@/assets/hc-194908.png.asset.json";
+import hc8 from "@/assets/hc-194926.png.asset.json";
+import hc9 from "@/assets/hc-194935.png.asset.json";
+import hc10 from "@/assets/hc-200352.png.asset.json";
 import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -38,6 +48,26 @@ export const Route = createFileRoute("/")({
 const projects = [
   {
     n: "01",
+    title: "Healthcare Web Application with AI Chatbot",
+    blurb:
+      "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations.",
+    stack: ["PHP", "MySQL", "AI Chatbot"],
+    kind: "Web · Healthcare",
+    images: [hc1.url, hc2.url, hc3.url, hc4.url, hc5.url, hc6.url, hc7.url, hc8.url, hc9.url, hc10.url],
+    orientation: "landscape" as const,
+  },
+  {
+    n: "02",
+    title: "Online Learning Platform — PTC Nueva Ecija",
+    blurb:
+      "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
+    stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
+    kind: "Web · LMS",
+    images: [] as string[],
+    orientation: "landscape" as const,
+  },
+  {
+    n: "03",
     title: "Lost and Found Mobile Application",
     blurb:
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
@@ -49,24 +79,7 @@ const projects = [
       lf14.url, lf15.url, lf16.url, lf17.url, lf18.url, lf19.url,
       lf20.url, lf21.url, lf22.url, lf23.url, lf24.url, lf26.url,
     ],
-  },
-  {
-    n: "02",
-    title: "Healthcare Web Application with AI Chatbot",
-    blurb:
-      "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations.",
-    stack: ["PHP", "MySQL", "AI Chatbot"],
-    kind: "Web · Healthcare",
-    images: [] as string[],
-  },
-  {
-    n: "03",
-    title: "Online Learning Platform — PTC Nueva Ecija",
-    blurb:
-      "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
-    stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-    kind: "Web · LMS",
-    images: [] as string[],
+    orientation: "portrait" as const,
   },
 ];
 
@@ -76,13 +89,14 @@ const skills = [
   "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
 ];
 
-function ProjectCarousel({ images, title }: { images: string[]; title: string }) {
+function ProjectCarousel({ images, title, orientation = "landscape" }: { images: string[]; title: string; orientation?: "portrait" | "landscape" }) {
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
     return () => clearInterval(id);
   }, [images.length]);
+  const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[240px] sm:h-[320px]";
   return (
     <div className="relative">
       <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
@@ -91,7 +105,7 @@ function ProjectCarousel({ images, title }: { images: string[]; title: string })
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
           {images.map((src, i) => (
-            <div key={src} className="min-w-full flex items-center justify-center bg-background h-[520px] p-4">
+            <div key={src} className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4`}>
               <img src={src} alt={`${title} screenshot ${i + 1}`} className="max-h-full max-w-full object-contain rounded-lg" loading="lazy" />
             </div>
           ))}
@@ -290,7 +304,7 @@ function Index() {
                 </div>
                 <div className="md:col-span-7">
                   {p.images.length > 0 ? (
-                    <ProjectCarousel images={p.images} title={p.title} />
+                    <ProjectCarousel images={p.images} title={p.title} orientation={p.orientation} />
                   ) : (
                     <div className="h-full min-h-[140px] rounded-xl border border-dashed border-border bg-background/40 flex items-center justify-center text-xs uppercase tracking-widest text-muted-foreground">
                       Screenshots coming soon

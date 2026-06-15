@@ -30,6 +30,7 @@ import hc8 from "@/assets/hc-194926.png.asset.json";
 import hc9 from "@/assets/hc-194935.png.asset.json";
 import hc10 from "@/assets/hc-200352.png.asset.json";
 import { useEffect, useRef, useState } from "react";
+import { assetUrl } from "@/lib/asset-url";
 
 const ADMIN_VIDEO =
   "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201223.mp4";
@@ -50,8 +51,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
       { property: "og:title", content: "Rayson Jay Bayan — Developer Portfolio" },
       { property: "og:description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
-      { property: "og:image", content: rayson.url },
-      { name: "twitter:image", content: rayson.url },
+      { property: "og:image", content: assetUrl(rayson.url) },
+      { name: "twitter:image", content: assetUrl(rayson.url) },
     ],
   }),
   component: Index,
@@ -76,16 +77,16 @@ const projects: {
     images: [
       { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true },
       { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough" },
-      { src: hc1.url, kind: "image", label: "Client View" },
-      { src: hc2.url, kind: "image", label: "Client View" },
-      { src: hc3.url, kind: "image", label: "Client View" },
-      { src: hc4.url, kind: "image", label: "Client View" },
-      { src: hc5.url, kind: "image", label: "Client View" },
-      { src: hc6.url, kind: "image", label: "Client View" },
-      { src: hc7.url, kind: "image", label: "Client View" },
-      { src: hc8.url, kind: "image", label: "Client View" },
-      { src: hc9.url, kind: "image", label: "Client View" },
-      { src: hc10.url, kind: "image", label: "Client View" },
+      { src: assetUrl(hc1.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc2.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc3.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc4.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc5.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc6.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc7.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc8.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc9.url), kind: "image", label: "Client View" },
+      { src: assetUrl(hc10.url), kind: "image", label: "Client View" },
     ],
     orientation: "landscape",
   },
@@ -107,25 +108,25 @@ const projects: {
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
     images: [
-      { src: lfHome.url, kind: "image" },
-      { src: lfLogin.url, kind: "image" },
-      { src: lfSignup.url, kind: "image" },
-      { src: lf8.url, kind: "image" },
-      { src: lf10.url, kind: "image" },
-      { src: lf11.url, kind: "image" },
-      { src: lf12.url, kind: "image" },
-      { src: lf14.url, kind: "image" },
-      { src: lf15.url, kind: "image" },
-      { src: lf16.url, kind: "image" },
-      { src: lf17.url, kind: "image" },
-      { src: lf18.url, kind: "image" },
-      { src: lf19.url, kind: "image" },
-      { src: lf20.url, kind: "image" },
-      { src: lf21.url, kind: "image" },
-      { src: lf22.url, kind: "image" },
-      { src: lf23.url, kind: "image" },
-      { src: lf24.url, kind: "image" },
-      { src: lf26.url, kind: "image" },
+      { src: assetUrl(lfHome.url), kind: "image" },
+      { src: assetUrl(lfLogin.url), kind: "image" },
+      { src: assetUrl(lfSignup.url), kind: "image" },
+      { src: assetUrl(lf8.url), kind: "image" },
+      { src: assetUrl(lf10.url), kind: "image" },
+      { src: assetUrl(lf11.url), kind: "image" },
+      { src: assetUrl(lf12.url), kind: "image" },
+      { src: assetUrl(lf14.url), kind: "image" },
+      { src: assetUrl(lf15.url), kind: "image" },
+      { src: assetUrl(lf16.url), kind: "image" },
+      { src: assetUrl(lf17.url), kind: "image" },
+      { src: assetUrl(lf18.url), kind: "image" },
+      { src: assetUrl(lf19.url), kind: "image" },
+      { src: assetUrl(lf20.url), kind: "image" },
+      { src: assetUrl(lf21.url), kind: "image" },
+      { src: assetUrl(lf22.url), kind: "image" },
+      { src: assetUrl(lf23.url), kind: "image" },
+      { src: assetUrl(lf24.url), kind: "image" },
+      { src: assetUrl(lf26.url), kind: "image" },
     ],
     orientation: "portrait",
   },
@@ -319,7 +320,7 @@ function Index() {
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/40 to-accent/40 rounded-[2rem] rotate-2" />
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
                 <img
-                  src={rayson.url}
+                  src={assetUrl(rayson.url)}
                   alt="Portrait of Rayson Jay F. Bayan"
                   className="w-full aspect-[4/5] object-cover"
                 />

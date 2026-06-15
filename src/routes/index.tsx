@@ -1,47 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import rayson from "@/assets/rayson.jpg.asset.json";
-import lfLogin from "@/assets/lostfound-login.png.asset.json";
-import lfSignup from "@/assets/lostfound-signup.png.asset.json";
-import lfHome from "@/assets/lostfound-home.png.asset.json";
-import lf8 from "@/assets/lf-8.png.asset.json";
-import lf10 from "@/assets/lf-10.png.asset.json";
-import lf11 from "@/assets/lf-11.png.asset.json";
-import lf12 from "@/assets/lf-12.png.asset.json";
-import lf14 from "@/assets/lf-14.png.asset.json";
-import lf15 from "@/assets/lf-15.png.asset.json";
-import lf16 from "@/assets/lf-16.png.asset.json";
-import lf17 from "@/assets/lf-17.png.asset.json";
-import lf18 from "@/assets/lf-18.png.asset.json";
-import lf19 from "@/assets/lf-19.png.asset.json";
-import lf20 from "@/assets/lf-20.png.asset.json";
-import lf21 from "@/assets/lf-21.png.asset.json";
-import lf22 from "@/assets/lf-22.png.asset.json";
-import lf23 from "@/assets/lf-23.png.asset.json";
-import lf24 from "@/assets/lf-24.png.asset.json";
-import lf26 from "@/assets/lf-26.png.asset.json";
-import hc1 from "@/assets/hc-194701.png.asset.json";
-import hc2 from "@/assets/hc-194721.png.asset.json";
-import hc3 from "@/assets/hc-194739.png.asset.json";
-import hc4 from "@/assets/hc-194749.png.asset.json";
-import hc5 from "@/assets/hc-194837.png.asset.json";
-import hc6 from "@/assets/hc-194853.png.asset.json";
-import hc7 from "@/assets/hc-194908.png.asset.json";
-import hc8 from "@/assets/hc-194926.png.asset.json";
-import hc9 from "@/assets/hc-194935.png.asset.json";
-import hc10 from "@/assets/hc-200352.png.asset.json";
-import { useEffect, useRef, useState } from "react";
-import { assetUrl } from "@/lib/asset-url";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const ADMIN_VIDEO =
-  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201223.mp4";
-const STAFF_VIDEO =
-  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201812.mp4";
+const SB = "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio";
+const PROFILE_PIC = `${SB}/phto.jpg`;
+const ADMIN_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201223.mp4`;
+const STAFF_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201812.mp4`;
 
+type View = "client" | "admin" | "staff";
 type MediaItem = {
   src: string;
   kind: "image" | "video";
   label?: string;
   highlight?: boolean;
+  view?: View;
 };
 
 export const Route = createFileRoute("/")({
@@ -51,12 +22,16 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
       { property: "og:title", content: "Rayson Jay Bayan — Developer Portfolio" },
       { property: "og:description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
-      { property: "og:image", content: assetUrl(rayson.url) },
-      { name: "twitter:image", content: assetUrl(rayson.url) },
+      { property: "og:image", content: PROFILE_PIC },
+      { name: "twitter:image", content: PROFILE_PIC },
     ],
   }),
   component: Index,
 });
+
+const HC_CLIENT_IMAGES = Array.from({ length: 15 }, (_, i) => `${SB}/homecare/${i + 1}.png`);
+const LF_IMAGE_NUMBERS = [1, 2, 3, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26];
+const LF_IMAGES = LF_IMAGE_NUMBERS.map((n) => `${SB}/l&F/${n}.png`);
 
 const projects: {
   n: string;
@@ -75,18 +50,9 @@ const projects: {
     stack: ["PHP", "MySQL", "AI Chatbot"],
     kind: "Web · Healthcare",
     images: [
-      { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true },
-      { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough" },
-      { src: assetUrl(hc1.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc2.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc3.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc4.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc5.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc6.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc7.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc8.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc9.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc10.url), kind: "image", label: "Client View" },
+      { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true, view: "admin" },
+      { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough", view: "staff" },
+      ...HC_CLIENT_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Client View", view: "client" as const })),
     ],
     orientation: "landscape",
   },
@@ -107,27 +73,7 @@ const projects: {
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
-    images: [
-      { src: assetUrl(lfHome.url), kind: "image" },
-      { src: assetUrl(lfLogin.url), kind: "image" },
-      { src: assetUrl(lfSignup.url), kind: "image" },
-      { src: assetUrl(lf8.url), kind: "image" },
-      { src: assetUrl(lf10.url), kind: "image" },
-      { src: assetUrl(lf11.url), kind: "image" },
-      { src: assetUrl(lf12.url), kind: "image" },
-      { src: assetUrl(lf14.url), kind: "image" },
-      { src: assetUrl(lf15.url), kind: "image" },
-      { src: assetUrl(lf16.url), kind: "image" },
-      { src: assetUrl(lf17.url), kind: "image" },
-      { src: assetUrl(lf18.url), kind: "image" },
-      { src: assetUrl(lf19.url), kind: "image" },
-      { src: assetUrl(lf20.url), kind: "image" },
-      { src: assetUrl(lf21.url), kind: "image" },
-      { src: assetUrl(lf22.url), kind: "image" },
-      { src: assetUrl(lf23.url), kind: "image" },
-      { src: assetUrl(lf24.url), kind: "image" },
-      { src: assetUrl(lf26.url), kind: "image" },
-    ],
+    images: LF_IMAGES.map((src) => ({ src, kind: "image" as const })),
     orientation: "portrait",
   },
 ];
@@ -139,23 +85,69 @@ const skills = [
 ];
 
 function ProjectCarousel({ images, title, orientation = "landscape" }: { images: MediaItem[]; title: string; orientation?: "portrait" | "landscape" }) {
+  const availableViews = useMemo(() => {
+    const set = new Set<View>();
+    images.forEach((m) => m.view && set.add(m.view));
+    const order: View[] = ["client", "admin", "staff"];
+    return order.filter((v) => set.has(v));
+  }, [images]);
+  const hasViews = availableViews.length > 1;
+  const [view, setView] = useState<View | "all">(hasViews ? availableViews[0] : "all");
+  const filtered = useMemo(
+    () => (view === "all" ? images : images.filter((m) => m.view === view)),
+    [images, view],
+  );
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
-  const hasVideo = images.some((m) => m.kind === "video");
+  const hasVideo = filtered.some((m) => m.kind === "video");
   useEffect(() => {
-    if (hasVideo) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
+    setIdx(0);
+  }, [view]);
+  useEffect(() => {
+    if (hasVideo || filtered.length <= 1) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % filtered.length), 3500);
     return () => clearInterval(id);
-  }, [images.length, hasVideo]);
+  }, [filtered.length, hasVideo]);
   const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
+  const viewMeta: Record<View, { label: string; icon: string }> = {
+    client: { label: "Client", icon: "👤" },
+    admin: { label: "Admin", icon: "⚡" },
+    staff: { label: "Staff", icon: "🩺" },
+  };
   return (
-    <div className="relative">
+    <div className="relative flex gap-3">
+      {hasViews && (
+        <div className="flex flex-col gap-2 shrink-0">
+          {availableViews.map((v) => {
+            const active = view === v;
+            return (
+              <button
+                key={v}
+                onClick={() => setView(v)}
+                aria-pressed={active}
+                className={`group relative flex flex-col items-center gap-1 rounded-xl border px-2.5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
+                  active
+                    ? "border-primary bg-primary text-primary-foreground shadow-[0_0_24px_-6px_var(--color-primary)]"
+                    : "border-border bg-card/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                <span className="text-base leading-none">{viewMeta[v].icon}</span>
+                <span>{viewMeta[v].label}</span>
+                {active && (
+                  <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
       <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
         <div
           className="flex transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
-          {images.map((item, i) => (
+          {filtered.map((item, i) => (
             <div
               key={`${item.src}-${i}`}
               className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4 relative ${
@@ -204,7 +196,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
       </div>
       <div className="mt-3 flex items-center justify-between">
         <div className="flex gap-1.5 flex-wrap">
-          {images.map((item, i) => (
+          {filtered.map((item, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
@@ -217,16 +209,17 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+            onClick={() => setIdx((i) => (i - 1 + filtered.length) % filtered.length)}
             className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
             aria-label="Previous"
           >‹</button>
           <button
-            onClick={() => setIdx((i) => (i + 1) % images.length)}
+            onClick={() => setIdx((i) => (i + 1) % filtered.length)}
             className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
             aria-label="Next"
           >›</button>
         </div>
+      </div>
       </div>
     </div>
   );
@@ -320,7 +313,7 @@ function Index() {
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/40 to-accent/40 rounded-[2rem] rotate-2" />
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
                 <img
-                  src={assetUrl(rayson.url)}
+                  src={PROFILE_PIC}
                   alt="Portrait of Rayson Jay F. Bayan"
                   className="w-full aspect-[4/5] object-cover"
                 />

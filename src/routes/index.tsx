@@ -1,47 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import rayson from "@/assets/rayson.jpg.asset.json";
-import lfLogin from "@/assets/lostfound-login.png.asset.json";
-import lfSignup from "@/assets/lostfound-signup.png.asset.json";
-import lfHome from "@/assets/lostfound-home.png.asset.json";
-import lf8 from "@/assets/lf-8.png.asset.json";
-import lf10 from "@/assets/lf-10.png.asset.json";
-import lf11 from "@/assets/lf-11.png.asset.json";
-import lf12 from "@/assets/lf-12.png.asset.json";
-import lf14 from "@/assets/lf-14.png.asset.json";
-import lf15 from "@/assets/lf-15.png.asset.json";
-import lf16 from "@/assets/lf-16.png.asset.json";
-import lf17 from "@/assets/lf-17.png.asset.json";
-import lf18 from "@/assets/lf-18.png.asset.json";
-import lf19 from "@/assets/lf-19.png.asset.json";
-import lf20 from "@/assets/lf-20.png.asset.json";
-import lf21 from "@/assets/lf-21.png.asset.json";
-import lf22 from "@/assets/lf-22.png.asset.json";
-import lf23 from "@/assets/lf-23.png.asset.json";
-import lf24 from "@/assets/lf-24.png.asset.json";
-import lf26 from "@/assets/lf-26.png.asset.json";
-import hc1 from "@/assets/hc-194701.png.asset.json";
-import hc2 from "@/assets/hc-194721.png.asset.json";
-import hc3 from "@/assets/hc-194739.png.asset.json";
-import hc4 from "@/assets/hc-194749.png.asset.json";
-import hc5 from "@/assets/hc-194837.png.asset.json";
-import hc6 from "@/assets/hc-194853.png.asset.json";
-import hc7 from "@/assets/hc-194908.png.asset.json";
-import hc8 from "@/assets/hc-194926.png.asset.json";
-import hc9 from "@/assets/hc-194935.png.asset.json";
-import hc10 from "@/assets/hc-200352.png.asset.json";
-import { useEffect, useRef, useState } from "react";
-import { assetUrl } from "@/lib/asset-url";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const ADMIN_VIDEO =
-  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201223.mp4";
-const STAFF_VIDEO =
-  "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio/Screen%20Recording%202026-06-14%20201812.mp4";
+const SB = "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio";
+const PROFILE_PIC = `${SB}/phto.jpg`;
+const ADMIN_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201223.mp4`;
+const STAFF_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201812.mp4`;
 
+type View = "client" | "admin" | "staff";
 type MediaItem = {
   src: string;
   kind: "image" | "video";
   label?: string;
   highlight?: boolean;
+  view?: View;
 };
 
 export const Route = createFileRoute("/")({
@@ -51,12 +22,16 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
       { property: "og:title", content: "Rayson Jay Bayan — Developer Portfolio" },
       { property: "og:description", content: "Full-stack developer from Nueva Ecija building web and mobile applications." },
-      { property: "og:image", content: assetUrl(rayson.url) },
-      { name: "twitter:image", content: assetUrl(rayson.url) },
+      { property: "og:image", content: PROFILE_PIC },
+      { name: "twitter:image", content: PROFILE_PIC },
     ],
   }),
   component: Index,
 });
+
+const HC_CLIENT_IMAGES = Array.from({ length: 15 }, (_, i) => `${SB}/homecare/${i + 1}.png`);
+const LF_IMAGE_NUMBERS = [1, 2, 3, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26];
+const LF_IMAGES = LF_IMAGE_NUMBERS.map((n) => `${SB}/l&F/${n}.png`);
 
 const projects: {
   n: string;
@@ -75,18 +50,9 @@ const projects: {
     stack: ["PHP", "MySQL", "AI Chatbot"],
     kind: "Web · Healthcare",
     images: [
-      { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true },
-      { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough" },
-      { src: assetUrl(hc1.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc2.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc3.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc4.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc5.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc6.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc7.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc8.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc9.url), kind: "image", label: "Client View" },
-      { src: assetUrl(hc10.url), kind: "image", label: "Client View" },
+      { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true, view: "admin" },
+      { src: STAFF_VIDEO, kind: "video", label: "Staff View · Walkthrough", view: "staff" },
+      ...HC_CLIENT_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Client View", view: "client" as const })),
     ],
     orientation: "landscape",
   },
@@ -107,27 +73,7 @@ const projects: {
       "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
-    images: [
-      { src: assetUrl(lfHome.url), kind: "image" },
-      { src: assetUrl(lfLogin.url), kind: "image" },
-      { src: assetUrl(lfSignup.url), kind: "image" },
-      { src: assetUrl(lf8.url), kind: "image" },
-      { src: assetUrl(lf10.url), kind: "image" },
-      { src: assetUrl(lf11.url), kind: "image" },
-      { src: assetUrl(lf12.url), kind: "image" },
-      { src: assetUrl(lf14.url), kind: "image" },
-      { src: assetUrl(lf15.url), kind: "image" },
-      { src: assetUrl(lf16.url), kind: "image" },
-      { src: assetUrl(lf17.url), kind: "image" },
-      { src: assetUrl(lf18.url), kind: "image" },
-      { src: assetUrl(lf19.url), kind: "image" },
-      { src: assetUrl(lf20.url), kind: "image" },
-      { src: assetUrl(lf21.url), kind: "image" },
-      { src: assetUrl(lf22.url), kind: "image" },
-      { src: assetUrl(lf23.url), kind: "image" },
-      { src: assetUrl(lf24.url), kind: "image" },
-      { src: assetUrl(lf26.url), kind: "image" },
-    ],
+    images: LF_IMAGES.map((src) => ({ src, kind: "image" as const })),
     orientation: "portrait",
   },
 ];

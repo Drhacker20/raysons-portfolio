@@ -266,7 +266,7 @@ function Index() {
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/40 to-accent/40 rounded-[2rem] rotate-2" />
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
                 <img
-                  src={assetUrl(rayson.url)}
+                  src={PROFILE_PIC}
                   alt="Portrait of Rayson Jay F. Bayan"
                   className="w-full aspect-[4/5] object-cover"
                 />

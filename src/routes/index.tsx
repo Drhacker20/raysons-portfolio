@@ -85,23 +85,69 @@ const skills = [
 ];
 
 function ProjectCarousel({ images, title, orientation = "landscape" }: { images: MediaItem[]; title: string; orientation?: "portrait" | "landscape" }) {
+  const availableViews = useMemo(() => {
+    const set = new Set<View>();
+    images.forEach((m) => m.view && set.add(m.view));
+    const order: View[] = ["client", "admin", "staff"];
+    return order.filter((v) => set.has(v));
+  }, [images]);
+  const hasViews = availableViews.length > 1;
+  const [view, setView] = useState<View | "all">(hasViews ? availableViews[0] : "all");
+  const filtered = useMemo(
+    () => (view === "all" ? images : images.filter((m) => m.view === view)),
+    [images, view],
+  );
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
-  const hasVideo = images.some((m) => m.kind === "video");
+  const hasVideo = filtered.some((m) => m.kind === "video");
   useEffect(() => {
-    if (hasVideo) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3500);
+    setIdx(0);
+  }, [view]);
+  useEffect(() => {
+    if (hasVideo || filtered.length <= 1) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % filtered.length), 3500);
     return () => clearInterval(id);
-  }, [images.length, hasVideo]);
+  }, [filtered.length, hasVideo]);
   const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
+  const viewMeta: Record<View, { label: string; icon: string }> = {
+    client: { label: "Client", icon: "👤" },
+    admin: { label: "Admin", icon: "⚡" },
+    staff: { label: "Staff", icon: "🩺" },
+  };
   return (
-    <div className="relative">
+    <div className="relative flex gap-3">
+      {hasViews && (
+        <div className="flex flex-col gap-2 shrink-0">
+          {availableViews.map((v) => {
+            const active = view === v;
+            return (
+              <button
+                key={v}
+                onClick={() => setView(v)}
+                aria-pressed={active}
+                className={`group relative flex flex-col items-center gap-1 rounded-xl border px-2.5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
+                  active
+                    ? "border-primary bg-primary text-primary-foreground shadow-[0_0_24px_-6px_var(--color-primary)]"
+                    : "border-border bg-card/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                <span className="text-base leading-none">{viewMeta[v].icon}</span>
+                <span>{viewMeta[v].label}</span>
+                {active && (
+                  <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
       <div ref={trackRef} className="overflow-hidden rounded-xl border border-border bg-background">
         <div
           className="flex transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
-          {images.map((item, i) => (
+          {filtered.map((item, i) => (
             <div
               key={`${item.src}-${i}`}
               className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4 relative ${
@@ -150,7 +196,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
       </div>
       <div className="mt-3 flex items-center justify-between">
         <div className="flex gap-1.5 flex-wrap">
-          {images.map((item, i) => (
+          {filtered.map((item, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
@@ -163,16 +209,17 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+            onClick={() => setIdx((i) => (i - 1 + filtered.length) % filtered.length)}
             className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
             aria-label="Previous"
           >‹</button>
           <button
-            onClick={() => setIdx((i) => (i + 1) % images.length)}
+            onClick={() => setIdx((i) => (i + 1) % filtered.length)}
             className="h-8 w-8 rounded-full border border-border bg-card/60 hover:bg-card text-sm"
             aria-label="Next"
           >›</button>
         </div>
+      </div>
       </div>
     </div>
   );

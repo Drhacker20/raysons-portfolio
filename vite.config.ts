@@ -12,8 +12,4 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  // Ito ang idagdag natin para i-force ang Nitro na mag-build para sa Vercel:
-  nitro: {
-    preset: "vercel"
-  }
 });

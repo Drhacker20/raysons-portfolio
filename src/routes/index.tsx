@@ -260,7 +260,7 @@ function PreviewLightbox() {
   if (!preview || typeof document === "undefined") return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-[6px] p-3 sm:p-6"
       onClick={() => setGlobalPreview(null)}
       role="dialog"
       aria-modal="true"
@@ -319,7 +319,7 @@ function Index() {
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
           </div>
           <a
-            href="mailto:raysonbayan15@gmail.com"
+            href="#contact"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm hover:bg-primary/90 transition"
           >
             Get in touch

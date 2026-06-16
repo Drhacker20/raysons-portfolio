@@ -260,7 +260,7 @@ function PreviewLightbox() {
   if (!preview || typeof document === "undefined") return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-[6px] p-3 sm:p-6"
       onClick={() => setGlobalPreview(null)}
       role="dialog"
       aria-modal="true"
@@ -268,7 +268,7 @@ function PreviewLightbox() {
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setGlobalPreview(null); }}
-        className="absolute top-3 right-3 sm:top-4 sm:right-4 h-10 w-10 rounded-full border border-border bg-card hover:bg-secondary text-lg font-bold z-10"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 h-14 w-14 rounded-full bg-red-600 hover:bg-red-700 text-white text-3xl font-bold z-10 shadow-[0_0_30px_-4px_rgba(220,38,38,0.6)] flex items-center justify-center transition-transform hover:scale-110"
         aria-label="Close preview"
       >×</button>
       {preview.label && (
@@ -319,7 +319,7 @@ function Index() {
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
           </div>
           <a
-            href="mailto:raysonbayan15@gmail.com"
+            href="#contact"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm hover:bg-primary/90 transition"
           >
             Get in touch

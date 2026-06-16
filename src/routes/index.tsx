@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const SB = "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio";
 const PROFILE_PIC = `${SB}/phto.jpg`;
@@ -34,6 +35,23 @@ const LF_IMAGE_NUMBERS = [1, 2, 3, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21
 const LF_IMAGES = LF_IMAGE_NUMBERS.map((n) => `${SB}/l&F/${n}.png`);
 const PTC_TRAINEE_IMAGES = Array.from({ length: 12 }, (_, i) => `${SB}/Tesda/${i + 1}.png`);
 const PTC_ADMIN_IMAGES = Array.from({ length: 12 }, (_, i) => `${SB}/Tesda/${i + 13}.png`);
+
+// Singleton preview state — only one lightbox open at a time across all carousels.
+let previewState: MediaItem | null = null;
+const previewListeners = new Set<() => void>();
+function setGlobalPreview(item: MediaItem | null) {
+  previewState = item;
+  previewListeners.forEach((l) => l());
+}
+function usePreview() {
+  const [, force] = useState(0);
+  useEffect(() => {
+    const l = () => force((n) => n + 1);
+    previewListeners.add(l);
+    return () => { previewListeners.delete(l); };
+  }, []);
+  return previewState;
+}
 
 const projects: {
   n: string;
@@ -104,16 +122,9 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
   );
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [preview, setPreview] = useState<MediaItem | null>(null);
   useEffect(() => {
     setIdx(0);
   }, [view]);
-  useEffect(() => {
-    if (!preview) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPreview(null); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [preview]);
   const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
   const viewMeta: Record<View, { label: string; icon: string }> = {
     client: { label: "Client", icon: "👤" },
@@ -185,22 +196,13 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
                   aria-label={`${title} — ${item.label ?? "video"}`}
                 />
               ) : (
-                <button
-                  type="button"
-                  onClick={() => setPreview(item)}
-                  className="group/img relative max-h-full max-w-full cursor-zoom-in"
-                  aria-label={`Preview ${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
-                >
-                  <img
-                    src={item.src}
-                    alt={`${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
-                    className="max-h-full max-w-full object-contain rounded-lg"
-                    loading="lazy"
-                  />
-                  <span className="absolute bottom-2 right-2 opacity-0 group-hover/img:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.2em] bg-background/85 backdrop-blur border border-border rounded-full px-2 py-1">
-                    ⤢ Preview
-                  </span>
-                </button>
+                <img
+                  src={item.src}
+                  alt={`${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
+                  onClick={() => setGlobalPreview(item)}
+                  className="max-h-full max-w-full object-contain rounded-lg cursor-zoom-in"
+                  loading="lazy"
+                />
               )}
               {item.label && !item.highlight && (
                 <div className="absolute bottom-3 right-3 z-10 text-[10px] uppercase tracking-[0.25em] bg-background/80 text-foreground backdrop-blur-sm border border-border rounded-full px-2.5 py-1">
@@ -238,39 +240,57 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
         </div>
       </div>
       </div>
-      {preview && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md p-4 sm:p-8 animate-in fade-in"
-          onClick={() => setPreview(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); setPreview(null); }}
-            className="absolute top-4 right-4 h-10 w-10 rounded-full border border-border bg-card hover:bg-secondary text-lg font-bold"
-            aria-label="Close preview"
-          >×</button>
-          {preview.label && (
-            <div className="absolute top-4 left-4 text-[11px] uppercase tracking-[0.3em] bg-card border border-border rounded-full px-3 py-1.5">
-              {preview.label}
-            </div>
-          )}
-          <img
-            src={preview.src}
-            alt={preview.label || title}
-            onClick={(e) => e.stopPropagation()}
-            className="max-h-[92vh] max-w-[96vw] object-contain rounded-xl shadow-2xl"
-          />
+    </div>
+  );
+}
+
+function PreviewLightbox() {
+  const preview = usePreview();
+  useEffect(() => {
+    if (!preview) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setGlobalPreview(null); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [preview]);
+  if (!preview || typeof document === "undefined") return null;
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6"
+      onClick={() => setGlobalPreview(null)}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); setGlobalPreview(null); }}
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 h-10 w-10 rounded-full border border-border bg-card hover:bg-secondary text-lg font-bold z-10"
+        aria-label="Close preview"
+      >×</button>
+      {preview.label && (
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 text-[10px] sm:text-[11px] uppercase tracking-[0.3em] bg-card border border-border rounded-full px-3 py-1.5 z-10">
+          {preview.label}
         </div>
       )}
-    </div>
+      <img
+        src={preview.src}
+        alt={preview.label || "Preview"}
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-[85vh] max-w-[92vw] w-auto h-auto object-contain rounded-xl shadow-2xl"
+      />
+    </div>,
+    document.body,
   );
 }
 
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground font-[var(--font-sans)] antialiased selection:bg-primary/30 relative overflow-x-hidden">
+      <PreviewLightbox />
       {/* Ambient glow */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute -top-40 -left-40 h-[40rem] w-[40rem] rounded-full bg-primary/10 blur-3xl" />

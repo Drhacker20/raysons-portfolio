@@ -290,6 +290,7 @@ function PreviewLightbox() {
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground font-[var(--font-sans)] antialiased selection:bg-primary/30 relative overflow-x-hidden">
+      <PreviewLightbox />
       {/* Ambient glow */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute -top-40 -left-40 h-[40rem] w-[40rem] rounded-full bg-primary/10 blur-3xl" />

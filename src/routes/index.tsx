@@ -6,7 +6,7 @@ const PROFILE_PIC = `${SB}/phto.jpg`;
 const ADMIN_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201223.mp4`;
 const STAFF_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201812.mp4`;
 
-type View = "client" | "admin" | "staff";
+type View = "client" | "admin" | "staff" | "trainee";
 type MediaItem = {
   src: string;
   kind: "image" | "video";
@@ -32,6 +32,8 @@ export const Route = createFileRoute("/")({
 const HC_CLIENT_IMAGES = Array.from({ length: 15 }, (_, i) => `${SB}/homecare/${i + 1}.png`);
 const LF_IMAGE_NUMBERS = [1, 2, 3, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26];
 const LF_IMAGES = LF_IMAGE_NUMBERS.map((n) => `${SB}/l&F/${n}.png`);
+const PTC_TRAINEE_IMAGES = Array.from({ length: 12 }, (_, i) => `${SB}/Tesda/${i + 1}.png`);
+const PTC_ADMIN_IMAGES = Array.from({ length: 12 }, (_, i) => `${SB}/Tesda/${i + 13}.png`);
 
 const projects: {
   n: string;
@@ -63,7 +65,10 @@ const projects: {
       "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
     stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
     kind: "Web · LMS",
-    images: [],
+    images: [
+      ...PTC_TRAINEE_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Trainee View", view: "trainee" as const })),
+      ...PTC_ADMIN_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Admin View", view: "admin" as const })),
+    ],
     orientation: "landscape",
   },
   {
@@ -88,7 +93,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
   const availableViews = useMemo(() => {
     const set = new Set<View>();
     images.forEach((m) => m.view && set.add(m.view));
-    const order: View[] = ["client", "admin", "staff"];
+    const order: View[] = ["trainee", "client", "admin", "staff"];
     return order.filter((v) => set.has(v));
   }, [images]);
   const hasViews = availableViews.length > 1;
@@ -99,20 +104,22 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
   );
   const [idx, setIdx] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
-  const hasVideo = filtered.some((m) => m.kind === "video");
+  const [preview, setPreview] = useState<MediaItem | null>(null);
   useEffect(() => {
     setIdx(0);
   }, [view]);
   useEffect(() => {
-    if (hasVideo || filtered.length <= 1) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % filtered.length), 3500);
-    return () => clearInterval(id);
-  }, [filtered.length, hasVideo]);
+    if (!preview) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPreview(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [preview]);
   const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
   const viewMeta: Record<View, { label: string; icon: string }> = {
     client: { label: "Client", icon: "👤" },
     admin: { label: "Admin", icon: "⚡" },
     staff: { label: "Staff", icon: "🩺" },
+    trainee: { label: "Trainee", icon: "🎓" },
   };
   return (
     <div className="relative flex gap-3">
@@ -178,12 +185,22 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
                   aria-label={`${title} — ${item.label ?? "video"}`}
                 />
               ) : (
-                <img
-                  src={item.src}
-                  alt={`${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
-                  className="max-h-full max-w-full object-contain rounded-lg"
-                  loading="lazy"
-                />
+                <button
+                  type="button"
+                  onClick={() => setPreview(item)}
+                  className="group/img relative max-h-full max-w-full cursor-zoom-in"
+                  aria-label={`Preview ${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
+                >
+                  <img
+                    src={item.src}
+                    alt={`${title}${item.label ? ` — ${item.label}` : ""} ${i + 1}`}
+                    className="max-h-full max-w-full object-contain rounded-lg"
+                    loading="lazy"
+                  />
+                  <span className="absolute bottom-2 right-2 opacity-0 group-hover/img:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.2em] bg-background/85 backdrop-blur border border-border rounded-full px-2 py-1">
+                    ⤢ Preview
+                  </span>
+                </button>
               )}
               {item.label && !item.highlight && (
                 <div className="absolute bottom-3 right-3 z-10 text-[10px] uppercase tracking-[0.25em] bg-background/80 text-foreground backdrop-blur-sm border border-border rounded-full px-2.5 py-1">
@@ -221,6 +238,32 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
         </div>
       </div>
       </div>
+      {preview && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md p-4 sm:p-8 animate-in fade-in"
+          onClick={() => setPreview(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setPreview(null); }}
+            className="absolute top-4 right-4 h-10 w-10 rounded-full border border-border bg-card hover:bg-secondary text-lg font-bold"
+            aria-label="Close preview"
+          >×</button>
+          {preview.label && (
+            <div className="absolute top-4 left-4 text-[11px] uppercase tracking-[0.3em] bg-card border border-border rounded-full px-3 py-1.5">
+              {preview.label}
+            </div>
+          )}
+          <img
+            src={preview.src}
+            alt={preview.label || title}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[92vh] max-w-[96vw] object-contain rounded-xl shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   );
 }

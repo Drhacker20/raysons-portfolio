@@ -1,11 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { assetUrl } from "@/lib/asset-url";
-import profileAsset from "@/assets/profile.jpg.asset.json";
 
 const SB = "https://arqipwcykpaffutxglss.supabase.co/storage/v1/object/public/Portfolio";
-const PROFILE_PIC = assetUrl(profileAsset.url);
+const PROFILE_PIC = `${SB}/771540042_2294388438066159_4969959484327397219_n.jpg`;
 const ADMIN_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201223.mp4`;
 const STAFF_VIDEO = `${SB}/Screen%20Recording%202026-06-14%20201812.mp4`;
 

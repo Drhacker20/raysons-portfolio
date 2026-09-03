@@ -354,22 +354,22 @@ function Index() {
               platforms to healthcare tools.
             </p>
 
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-8 sm:mt-10 flex flex-wrap gap-3">
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-primary/90 transition shadow-[0_0_30px_-8px_var(--color-primary)]"
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 sm:px-6 py-3 text-sm font-medium hover:bg-primary/90 transition shadow-[0_0_30px_-8px_var(--color-primary)]"
               >
                 View selected work →
               </a>
               <a
                 href="https://github.com/Drhacker20"
                 target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm hover:bg-secondary transition"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 sm:px-6 py-3 text-sm hover:bg-secondary transition"
               >
                 GitHub ↗
               </a>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs uppercase tracking-widest text-muted-foreground">
+            <div className="mt-8 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
               <span>BSIT · 4th Year</span>
               <span className="h-1 w-1 rounded-full bg-border" />
               <span>NEUST</span>
@@ -379,15 +379,16 @@ function Index() {
           </div>
 
           <div className="md:col-span-5">
-            <div className="relative">
+            <div className="relative mx-auto w-full max-w-[17rem] sm:max-w-sm md:max-w-none">
               <div className="absolute -inset-6 bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-[2.5rem] rotate-3 blur-2xl" />
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/40 to-accent/40 rounded-[2rem] rotate-2" />
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
                 <img
                   src={PROFILE_PIC}
                   alt="Portrait of Rayson Jay F. Bayan"
-                  className="w-full aspect-[4/5] object-cover"
+                  className="w-full aspect-[4/5] object-cover object-top"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs">
                   <span className="font-[var(--font-display)] italic text-base">Rayson Jay F. Bayan</span>

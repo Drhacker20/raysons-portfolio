@@ -125,7 +125,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
   useEffect(() => {
     setIdx(0);
   }, [view]);
-  const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
+  const heightClass = orientation === "portrait" ? "h-[300px] sm:h-[420px]" : "h-[200px] sm:h-[340px]";
   const viewMeta: Record<View, { label: string; icon: string }> = {
     client: { label: "Client", icon: "👤" },
     admin: { label: "Admin", icon: "⚡" },
@@ -133,9 +133,10 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
     trainee: { label: "Trainee", icon: "🎓" },
   };
   return (
-    <div className="relative flex gap-3">
+    <div className="relative flex flex-col gap-3 sm:flex-row min-w-0">
       {hasViews && (
-        <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex flex-row sm:flex-col gap-2 shrink-0">
+
           {availableViews.map((v) => {
             const active = view === v;
             return (

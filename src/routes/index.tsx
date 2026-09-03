@@ -144,11 +144,12 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
                 key={v}
                 onClick={() => setView(v)}
                 aria-pressed={active}
-                className={`group relative flex flex-col items-center gap-1 rounded-xl border px-2.5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
+                className={`group relative flex flex-1 sm:flex-none flex-row sm:flex-col items-center justify-center gap-1.5 sm:gap-1 rounded-xl border px-2.5 py-2 sm:py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
                   active
                     ? "border-primary bg-primary text-primary-foreground shadow-[0_0_24px_-6px_var(--color-primary)]"
                     : "border-border bg-card/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
+
               >
                 <span className="text-base leading-none">{viewMeta[v].icon}</span>
                 <span>{viewMeta[v].label}</span>

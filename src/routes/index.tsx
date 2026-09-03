@@ -125,7 +125,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
   useEffect(() => {
     setIdx(0);
   }, [view]);
-  const heightClass = orientation === "portrait" ? "h-[360px] sm:h-[420px]" : "h-[280px] sm:h-[340px]";
+  const heightClass = orientation === "portrait" ? "h-[300px] sm:h-[420px]" : "h-[200px] sm:h-[340px]";
   const viewMeta: Record<View, { label: string; icon: string }> = {
     client: { label: "Client", icon: "👤" },
     admin: { label: "Admin", icon: "⚡" },
@@ -133,9 +133,10 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
     trainee: { label: "Trainee", icon: "🎓" },
   };
   return (
-    <div className="relative flex gap-3">
+    <div className="relative flex flex-col gap-3 sm:flex-row min-w-0">
       {hasViews && (
-        <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex flex-row sm:flex-col gap-2 shrink-0">
+
           {availableViews.map((v) => {
             const active = view === v;
             return (
@@ -143,16 +144,17 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
                 key={v}
                 onClick={() => setView(v)}
                 aria-pressed={active}
-                className={`group relative flex flex-col items-center gap-1 rounded-xl border px-2.5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
+                className={`group relative flex flex-1 sm:flex-none flex-row sm:flex-col items-center justify-center gap-1.5 sm:gap-1 rounded-xl border px-2.5 py-2 sm:py-3 text-[10px] font-bold uppercase tracking-[0.15em] transition-all ${
                   active
                     ? "border-primary bg-primary text-primary-foreground shadow-[0_0_24px_-6px_var(--color-primary)]"
                     : "border-border bg-card/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
+
               >
                 <span className="text-base leading-none">{viewMeta[v].icon}</span>
                 <span>{viewMeta[v].label}</span>
                 {active && (
-                  <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
+                  <span className="hidden sm:block absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
                 )}
               </button>
             );
@@ -168,7 +170,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
           {filtered.map((item, i) => (
             <div
               key={`${item.src}-${i}`}
-              className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4 relative ${
+              className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-2 sm:p-4 relative ${
                 item.highlight ? "ring-2 ring-primary/70 ring-inset" : ""
               }`}
             >
@@ -307,9 +309,9 @@ function Index() {
 
       {/* Nav */}
       <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/60">
-        <nav className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <a href="#top" className="font-[var(--font-display)] text-lg tracking-tight flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_var(--color-primary)]" />
+        <nav className="mx-auto max-w-6xl px-5 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <a href="#top" className="font-[var(--font-display)] text-lg tracking-tight flex items-center gap-2 min-w-0">
+            <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_12px_var(--color-primary)]" />
             Rayson<span className="text-primary">.</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
@@ -317,6 +319,11 @@ function Index() {
             <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
             <a href="#about" className="hover:text-foreground transition-colors">About</a>
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
+          </div>
+          <div className="flex items-center gap-2 md:hidden text-xs text-muted-foreground">
+            <a href="#work" className="hover:text-foreground transition-colors">Work</a>
+            <a href="#about" className="hover:text-foreground transition-colors">About</a>
+            <a href="#contact" className="rounded-full bg-primary text-primary-foreground px-3 py-1.5 font-medium">Contact</a>
           </div>
           <a
             href="#contact"
@@ -329,39 +336,40 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative pt-40 pb-24 px-6">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-7">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6 border border-border rounded-full px-3 py-1">
+      <section id="top" className="relative pt-28 sm:pt-40 pb-16 sm:pb-24 px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-10 md:gap-12 items-center">
+          <div className="md:col-span-7 min-w-0">
+            <p className="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.3em] text-muted-foreground mb-5 sm:mb-6 border border-border rounded-full px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               Available for work · 2026
             </p>
-            <h1 className="font-[var(--font-display)] text-6xl md:text-8xl leading-[0.95] tracking-tight">
+            <h1 className="font-[var(--font-display)] text-[clamp(2.75rem,13vw,4rem)] md:text-8xl leading-[0.95] tracking-tight break-words">
               Rayson Jay
               <br />
               <span className="italic bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Bayan.</span>
             </h1>
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
               Full-stack developer & BSIT 4th-year student at Nueva Ecija University of
               Science and Technology. I build web and mobile applications — from learning
               platforms to healthcare tools.
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
+
+            <div className="mt-8 sm:mt-10 flex flex-wrap gap-3">
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-primary/90 transition shadow-[0_0_30px_-8px_var(--color-primary)]"
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 sm:px-6 py-3 text-sm font-medium hover:bg-primary/90 transition shadow-[0_0_30px_-8px_var(--color-primary)]"
               >
                 View selected work →
               </a>
               <a
                 href="https://github.com/Drhacker20"
                 target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm hover:bg-secondary transition"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 sm:px-6 py-3 text-sm hover:bg-secondary transition"
               >
                 GitHub ↗
               </a>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs uppercase tracking-widest text-muted-foreground">
+            <div className="mt-8 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
               <span>BSIT · 4th Year</span>
               <span className="h-1 w-1 rounded-full bg-border" />
               <span>NEUST</span>
@@ -371,15 +379,16 @@ function Index() {
           </div>
 
           <div className="md:col-span-5">
-            <div className="relative">
+            <div className="relative mx-auto w-full max-w-[17rem] sm:max-w-sm md:max-w-none">
               <div className="absolute -inset-6 bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-[2.5rem] rotate-3 blur-2xl" />
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/40 to-accent/40 rounded-[2rem] rotate-2" />
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
                 <img
                   src={PROFILE_PIC}
                   alt="Portrait of Rayson Jay F. Bayan"
-                  className="w-full aspect-[4/5] object-cover"
+                  className="w-full aspect-[4/5] object-cover object-top"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs">
                   <span className="font-[var(--font-display)] italic text-base">Rayson Jay F. Bayan</span>
@@ -393,10 +402,10 @@ function Index() {
 
       {/* Marquee strip */}
       <div className="border-y border-border bg-secondary/40 overflow-hidden">
-        <div className="flex animate-[scroll_40s_linear_infinite] gap-12 py-5 whitespace-nowrap text-2xl font-[var(--font-display)] italic text-muted-foreground">
+        <div className="flex animate-[scroll_40s_linear_infinite] gap-8 sm:gap-12 py-4 sm:py-5 whitespace-nowrap text-lg sm:text-2xl font-[var(--font-display)] italic text-muted-foreground">
           {[...Array(3)].flatMap((_, i) =>
             ["PHP", "MySQL", "Java", "JavaScript", "Android", "REST APIs", "AI Chatbot", "WordPress"].map((s) => (
-              <span key={`${i}-${s}`} className="flex items-center gap-12">
+              <span key={`${i}-${s}`} className="flex items-center gap-8 sm:gap-12">
                 {s}
                 <span className="text-primary">✦</span>
               </span>
@@ -407,14 +416,14 @@ function Index() {
       </div>
 
       {/* Work */}
-      <section id="work" className="px-6 py-28">
+      <section id="work" className="px-5 sm:px-6 py-16 sm:py-28">
         <div className="mx-auto max-w-6xl">
-          <div className="flex items-end justify-between mb-16">
-            <div>
-              <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 sm:mb-16">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
                 Selected work
               </p>
-              <h2 className="font-[var(--font-display)] text-4xl md:text-6xl tracking-tight">
+              <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl md:text-6xl tracking-tight">
                 Projects I'm proud of.
               </h2>
             </div>
@@ -423,35 +432,35 @@ function Index() {
             </p>
           </div>
 
-          <ul className="space-y-6">
+          <ul className="space-y-5 sm:space-y-6">
             {projects.map((p) => (
               <li
                 key={p.n}
-                className="group relative grid md:grid-cols-12 gap-6 p-8 rounded-2xl border border-border bg-card/40 backdrop-blur-sm hover:border-primary/40 hover:bg-card/70 transition-all"
+                className="group relative grid md:grid-cols-12 gap-5 md:gap-6 p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card/40 backdrop-blur-sm hover:border-primary/40 hover:bg-card/70 transition-all"
               >
                 <div className="md:col-span-1 text-sm text-muted-foreground font-mono">
                   {p.n}
                 </div>
-                <div className="md:col-span-4">
-                  <h3 className="font-[var(--font-display)] text-2xl md:text-3xl tracking-tight group-hover:text-primary transition-colors">
+                <div className="md:col-span-4 min-w-0">
+                  <h3 className="font-[var(--font-display)] text-xl sm:text-2xl md:text-3xl tracking-tight break-words group-hover:text-primary transition-colors">
                     {p.title}
                   </h3>
-                  <p className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">
+                  <p className="mt-2 mb-2 text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
                     {p.kind}
                   </p>
-                  <p className="text-muted-foreground leading-relaxed">{p.blurb}</p>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{p.blurb}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {p.stack.map((s) => (
                       <span
                         key={s}
-                        className="text-xs px-3 py-1 rounded-full border border-border bg-background/60"
+                        className="text-[11px] sm:text-xs px-3 py-1 rounded-full border border-border bg-background/60"
                       >
                         {s}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div className="md:col-span-7">
+                <div className="md:col-span-7 min-w-0">
                   {p.images.length > 0 ? (
                     <ProjectCarousel images={p.images} title={p.title} orientation={p.orientation} />
                   ) : (
@@ -460,6 +469,7 @@ function Index() {
                     </div>
                   )}
                 </div>
+
               </li>
             ))}
           </ul>
@@ -467,24 +477,24 @@ function Index() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="px-6 py-28 border-y border-border bg-secondary/20">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12">
+      <section id="skills" className="px-5 sm:px-6 py-16 sm:py-28 border-y border-border bg-secondary/20">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">Toolkit</p>
-            <h2 className="font-[var(--font-display)] text-4xl md:text-5xl tracking-tight">
+            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">Toolkit</p>
+            <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl md:text-5xl tracking-tight">
               Skills & <span className="italic text-primary">tools</span>.
             </h2>
-            <p className="mt-6 text-muted-foreground">
+            <p className="mt-5 sm:mt-6 text-muted-foreground">
               The stack I reach for when shipping web and mobile apps.
             </p>
           </div>
-          <div className="md:col-span-8 flex flex-wrap gap-3 content-start">
+          <div className="md:col-span-8 flex flex-wrap gap-2 sm:gap-3 content-start">
             {skills.map((s, i) => (
               <span
                 key={s}
-                className="px-4 py-2 rounded-full border border-border bg-card text-sm hover:border-primary/50 hover:text-primary transition-colors"
+                className="px-3 sm:px-4 py-2 rounded-full border border-border bg-card text-xs sm:text-sm hover:border-primary/50 hover:text-primary transition-colors"
               >
-                <span className="text-muted-foreground font-mono text-xs mr-2">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-muted-foreground font-mono text-[10px] sm:text-xs mr-2">{String(i + 1).padStart(2, "0")}</span>
                 {s}
               </span>
             ))}
@@ -493,17 +503,18 @@ function Index() {
       </section>
 
       {/* About */}
-      <section id="about" className="px-6 py-28">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12">
+      <section id="about" className="px-5 sm:px-6 py-16 sm:py-28">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
+            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
               About
             </p>
-            <h2 className="font-[var(--font-display)] text-4xl tracking-tight">
+            <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl tracking-tight">
               A builder at heart.
             </h2>
           </div>
-          <div className="md:col-span-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
+          <div className="md:col-span-8 space-y-5 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
+
             <p>
               I'm Rayson — an Information Technology student passionate about web and
               mobile application development. I have experience building web-based
@@ -522,18 +533,19 @@ function Index() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="px-6 py-32 border-t border-border">
+      <section id="contact" className="px-5 sm:px-6 py-20 sm:py-32 border-t border-border">
         <div className="mx-auto max-w-6xl">
-          <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-5 sm:mb-6">
             Contact
           </p>
-          <h2 className="font-[var(--font-display)] text-5xl md:text-7xl tracking-tight leading-[1.05] max-w-4xl">
+          <h2 className="font-[var(--font-display)] text-[clamp(2.25rem,11vw,3.25rem)] md:text-7xl tracking-tight leading-[1.05] max-w-4xl">
             Let's build something
             <br />
             <span className="italic bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">together.</span>
           </h2>
 
-          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-border pt-10">
+          <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 border-t border-border pt-8 sm:pt-10">
+
             <div>
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
                 Email

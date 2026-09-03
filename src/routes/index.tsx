@@ -533,18 +533,19 @@ function Index() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="px-6 py-32 border-t border-border">
+      <section id="contact" className="px-5 sm:px-6 py-20 sm:py-32 border-t border-border">
         <div className="mx-auto max-w-6xl">
-          <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-6">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-5 sm:mb-6">
             Contact
           </p>
-          <h2 className="font-[var(--font-display)] text-5xl md:text-7xl tracking-tight leading-[1.05] max-w-4xl">
+          <h2 className="font-[var(--font-display)] text-[clamp(2.25rem,11vw,3.25rem)] md:text-7xl tracking-tight leading-[1.05] max-w-4xl">
             Let's build something
             <br />
             <span className="italic bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">together.</span>
           </h2>
 
-          <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-8 border-t border-border pt-10">
+          <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 border-t border-border pt-8 sm:pt-10">
+
             <div>
               <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
                 Email

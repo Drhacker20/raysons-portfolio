@@ -170,7 +170,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
           {filtered.map((item, i) => (
             <div
               key={`${item.src}-${i}`}
-              className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-4 relative ${
+              className={`min-w-full flex items-center justify-center bg-background ${heightClass} p-2 sm:p-4 relative ${
                 item.highlight ? "ring-2 ring-primary/70 ring-inset" : ""
               }`}
             >

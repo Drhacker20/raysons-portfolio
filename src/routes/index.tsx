@@ -309,9 +309,9 @@ function Index() {
 
       {/* Nav */}
       <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/60">
-        <nav className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <a href="#top" className="font-[var(--font-display)] text-lg tracking-tight flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_var(--color-primary)]" />
+        <nav className="mx-auto max-w-6xl px-5 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <a href="#top" className="font-[var(--font-display)] text-lg tracking-tight flex items-center gap-2 min-w-0">
+            <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_12px_var(--color-primary)]" />
             Rayson<span className="text-primary">.</span>
           </a>
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
@@ -319,6 +319,11 @@ function Index() {
             <a href="#skills" className="hover:text-foreground transition-colors">Skills</a>
             <a href="#about" className="hover:text-foreground transition-colors">About</a>
             <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
+          </div>
+          <div className="flex items-center gap-2 md:hidden text-xs text-muted-foreground">
+            <a href="#work" className="hover:text-foreground transition-colors">Work</a>
+            <a href="#about" className="hover:text-foreground transition-colors">About</a>
+            <a href="#contact" className="rounded-full bg-primary text-primary-foreground px-3 py-1.5 font-medium">Contact</a>
           </div>
           <a
             href="#contact"
@@ -331,23 +336,24 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative pt-40 pb-24 px-6">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-7">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6 border border-border rounded-full px-3 py-1">
+      <section id="top" className="relative pt-28 sm:pt-40 pb-16 sm:pb-24 px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-10 md:gap-12 items-center">
+          <div className="md:col-span-7 min-w-0">
+            <p className="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.3em] text-muted-foreground mb-5 sm:mb-6 border border-border rounded-full px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               Available for work · 2026
             </p>
-            <h1 className="font-[var(--font-display)] text-6xl md:text-8xl leading-[0.95] tracking-tight">
+            <h1 className="font-[var(--font-display)] text-[clamp(2.75rem,13vw,4rem)] md:text-8xl leading-[0.95] tracking-tight break-words">
               Rayson Jay
               <br />
               <span className="italic bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Bayan.</span>
             </h1>
-            <p className="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
               Full-stack developer & BSIT 4th-year student at Nueva Ecija University of
               Science and Technology. I build web and mobile applications — from learning
               platforms to healthcare tools.
             </p>
+
             <div className="mt-10 flex flex-wrap gap-3">
               <a
                 href="#work"

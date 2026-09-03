@@ -402,10 +402,10 @@ function Index() {
 
       {/* Marquee strip */}
       <div className="border-y border-border bg-secondary/40 overflow-hidden">
-        <div className="flex animate-[scroll_40s_linear_infinite] gap-12 py-5 whitespace-nowrap text-2xl font-[var(--font-display)] italic text-muted-foreground">
+        <div className="flex animate-[scroll_40s_linear_infinite] gap-8 sm:gap-12 py-4 sm:py-5 whitespace-nowrap text-lg sm:text-2xl font-[var(--font-display)] italic text-muted-foreground">
           {[...Array(3)].flatMap((_, i) =>
             ["PHP", "MySQL", "Java", "JavaScript", "Android", "REST APIs", "AI Chatbot", "WordPress"].map((s) => (
-              <span key={`${i}-${s}`} className="flex items-center gap-12">
+              <span key={`${i}-${s}`} className="flex items-center gap-8 sm:gap-12">
                 {s}
                 <span className="text-primary">✦</span>
               </span>
@@ -416,14 +416,14 @@ function Index() {
       </div>
 
       {/* Work */}
-      <section id="work" className="px-6 py-28">
+      <section id="work" className="px-5 sm:px-6 py-16 sm:py-28">
         <div className="mx-auto max-w-6xl">
-          <div className="flex items-end justify-between mb-16">
-            <div>
-              <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 sm:mb-16">
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
                 Selected work
               </p>
-              <h2 className="font-[var(--font-display)] text-4xl md:text-6xl tracking-tight">
+              <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl md:text-6xl tracking-tight">
                 Projects I'm proud of.
               </h2>
             </div>
@@ -432,35 +432,35 @@ function Index() {
             </p>
           </div>
 
-          <ul className="space-y-6">
+          <ul className="space-y-5 sm:space-y-6">
             {projects.map((p) => (
               <li
                 key={p.n}
-                className="group relative grid md:grid-cols-12 gap-6 p-8 rounded-2xl border border-border bg-card/40 backdrop-blur-sm hover:border-primary/40 hover:bg-card/70 transition-all"
+                className="group relative grid md:grid-cols-12 gap-5 md:gap-6 p-4 sm:p-6 md:p-8 rounded-2xl border border-border bg-card/40 backdrop-blur-sm hover:border-primary/40 hover:bg-card/70 transition-all"
               >
                 <div className="md:col-span-1 text-sm text-muted-foreground font-mono">
                   {p.n}
                 </div>
-                <div className="md:col-span-4">
-                  <h3 className="font-[var(--font-display)] text-2xl md:text-3xl tracking-tight group-hover:text-primary transition-colors">
+                <div className="md:col-span-4 min-w-0">
+                  <h3 className="font-[var(--font-display)] text-xl sm:text-2xl md:text-3xl tracking-tight break-words group-hover:text-primary transition-colors">
                     {p.title}
                   </h3>
-                  <p className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">
+                  <p className="mt-2 mb-2 text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
                     {p.kind}
                   </p>
-                  <p className="text-muted-foreground leading-relaxed">{p.blurb}</p>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{p.blurb}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {p.stack.map((s) => (
                       <span
                         key={s}
-                        className="text-xs px-3 py-1 rounded-full border border-border bg-background/60"
+                        className="text-[11px] sm:text-xs px-3 py-1 rounded-full border border-border bg-background/60"
                       >
                         {s}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div className="md:col-span-7">
+                <div className="md:col-span-7 min-w-0">
                   {p.images.length > 0 ? (
                     <ProjectCarousel images={p.images} title={p.title} orientation={p.orientation} />
                   ) : (
@@ -469,6 +469,7 @@ function Index() {
                     </div>
                   )}
                 </div>
+
               </li>
             ))}
           </ul>

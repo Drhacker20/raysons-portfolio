@@ -477,24 +477,24 @@ function Index() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="px-6 py-28 border-y border-border bg-secondary/20">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12">
+      <section id="skills" className="px-5 sm:px-6 py-16 sm:py-28 border-y border-border bg-secondary/20">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">Toolkit</p>
-            <h2 className="font-[var(--font-display)] text-4xl md:text-5xl tracking-tight">
+            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">Toolkit</p>
+            <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl md:text-5xl tracking-tight">
               Skills & <span className="italic text-primary">tools</span>.
             </h2>
-            <p className="mt-6 text-muted-foreground">
+            <p className="mt-5 sm:mt-6 text-muted-foreground">
               The stack I reach for when shipping web and mobile apps.
             </p>
           </div>
-          <div className="md:col-span-8 flex flex-wrap gap-3 content-start">
+          <div className="md:col-span-8 flex flex-wrap gap-2 sm:gap-3 content-start">
             {skills.map((s, i) => (
               <span
                 key={s}
-                className="px-4 py-2 rounded-full border border-border bg-card text-sm hover:border-primary/50 hover:text-primary transition-colors"
+                className="px-3 sm:px-4 py-2 rounded-full border border-border bg-card text-xs sm:text-sm hover:border-primary/50 hover:text-primary transition-colors"
               >
-                <span className="text-muted-foreground font-mono text-xs mr-2">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-muted-foreground font-mono text-[10px] sm:text-xs mr-2">{String(i + 1).padStart(2, "0")}</span>
                 {s}
               </span>
             ))}
@@ -503,17 +503,18 @@ function Index() {
       </section>
 
       {/* About */}
-      <section id="about" className="px-6 py-28">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-12">
+      <section id="about" className="px-5 sm:px-6 py-16 sm:py-28">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-12 gap-8 md:gap-12">
           <div className="md:col-span-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
+            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3">
               About
             </p>
-            <h2 className="font-[var(--font-display)] text-4xl tracking-tight">
+            <h2 className="font-[var(--font-display)] text-3xl sm:text-4xl tracking-tight">
               A builder at heart.
             </h2>
           </div>
-          <div className="md:col-span-8 space-y-6 text-lg text-muted-foreground leading-relaxed">
+          <div className="md:col-span-8 space-y-5 sm:space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
+
             <p>
               I'm Rayson — an Information Technology student passionate about web and
               mobile application development. I have experience building web-based

@@ -154,7 +154,7 @@ function ProjectCarousel({ images, title, orientation = "landscape" }: { images:
                 <span className="text-base leading-none">{viewMeta[v].icon}</span>
                 <span>{viewMeta[v].label}</span>
                 {active && (
-                  <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
+                  <span className="hidden sm:block absolute -right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary animate-pulse" />
                 )}
               </button>
             );

@@ -66,8 +66,8 @@ const projects: {
     n: "01",
     title: "Healthcare Web Application with AI Chatbot",
     blurb:
-      "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations.",
-    stack: ["PHP", "MySQL", "AI Chatbot"],
+      "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations. Features a React frontend with a PHP backend API and Supabase for storage.",
+    stack: ["React", "PHP", "Supabase", "MySQL", "AI Chatbot"],
     kind: "Web · Healthcare",
     images: [
       { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true, view: "admin" },

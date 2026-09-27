@@ -80,9 +80,9 @@ const projects: {
     n: "02",
     title: "Online Learning Platform — PTC Nueva Ecija",
     blurb:
-      "A learning platform with Admin and User portals: course management, learning materials, randomized assessments, and digital certification.",
-    stack: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-    kind: "Web · LMS",
+      "A learning platform with Admin and Trainee portals: course management, learning materials, randomized assessments, and digital certification. Currently being rebuilt in React with Supabase for authentication, database, and file storage.",
+    stack: ["React", "Supabase", "JavaScript", "REST APIs", "Auth"],
+    kind: "Web · LMS · In progress",
     images: [
       ...PTC_TRAINEE_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Trainee View", view: "trainee" as const })),
       ...PTC_ADMIN_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Admin View", view: "admin" as const })),
@@ -102,10 +102,16 @@ const projects: {
 ];
 
 const skills = [
+  "Full-stack Web Development", "React.js", "Node.js / Express.js",
+  "Angular / Ionic", "MongoDB", "Firebase / Firestore", "Supabase",
   "PHP", "MySQL", "Java", "HTML/CSS", "JavaScript", "REST APIs",
-  "Android Studio", "Database Management", "WordPress", "Data Entry",
-  "Product Listing", "AI Chatbot Integration", "System Testing", "Problem Solving",
+  "Authentication & User Management", "Database Management",
+  "Vercel Deployment", "Android Studio", "WordPress",
+  "AI Chatbot Integration", "System Testing",
+  "Debugging & Troubleshooting", "Data Entry", "Product Listing",
+  "Problem Solving",
 ];
+
 
 function ProjectCarousel({ images, title, orientation = "landscape" }: { images: MediaItem[]; title: string; orientation?: "portrait" | "landscape" }) {
   const availableViews = useMemo(() => {

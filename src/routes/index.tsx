@@ -567,7 +567,7 @@ function Index() {
                 Phone
               </p>
               <a
-                href="tel:+639533284028"
+                href="tel:+639463011761"
                 className="text-lg hover:text-primary transition-colors"
               >
                 0946 301 1761

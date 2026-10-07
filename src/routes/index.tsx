@@ -356,8 +356,7 @@ function Index() {
             </h1>
             <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
               Full-stack developer & BSIT 4th-year student at Nueva Ecija University of
-              Science and Technology. I build web and mobile applications — from learning
-              platforms to healthcare tools.
+              Science and Technology. I build web and mobile applications.
             </p>
 
             <div className="mt-8 sm:mt-10 flex flex-wrap gap-3">
@@ -568,10 +567,10 @@ function Index() {
                 Phone
               </p>
               <a
-                href="tel:+639533284028"
+                href="tel:+639463011761"
                 className="text-lg hover:text-primary transition-colors"
               >
-                0953 328 4028
+                0946 301 1761
               </a>
             </div>
             <div>

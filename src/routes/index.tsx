@@ -93,9 +93,9 @@ const projects: {
     n: "03",
     title: "Lost and Found Mobile Application",
     blurb:
-      "An Android app for reporting and tracking missing items. Finders and claimers are connected through a built-in chat, and a hand-over verification system secures every return: the finder holds two digits missing from the claimer's verification code, and the claimer holds two digits missing from the finder's code — so when they meet up and hand over the item, each completes the other's code to verify the exchange.",
-    stack: ["Java", "PHP", "MySQL", "REST API"],
-    kind: "Mobile · Android",
+      "A cross-platform Ionic Angular app for reporting and tracking missing items, with a Node.js backend and Firebase powering the database, authentication, and notifications. Finders and claimers are connected through a built-in chat, and a hand-over verification system secures every return: the finder holds two digits missing from the claimer's verification code, and the claimer holds two digits missing from the finder's code — so when they meet up and hand over the item, each completes the other's code to verify the exchange.",
+    stack: ["Ionic", "Angular", "TypeScript", "Node.js", "Firebase", "REST API"],
+    kind: "Mobile · Ionic Angular",
     images: LF_IMAGES.map((src) => ({ src, kind: "image" as const })),
     orientation: "portrait",
   },

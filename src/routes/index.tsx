@@ -66,8 +66,8 @@ const projects: {
     n: "01",
     title: "Healthcare Web Application with AI Chatbot",
     blurb:
-      "A healthcare management system with an integrated AI chatbot for patient assistance, plus patient record management and database operations. Features a React frontend with a PHP backend API and Supabase for storage.",
-    stack: ["React", "PHP", "Supabase", "MySQL", "AI Chatbot"],
+      "A healthcare management system (Caring Hand) with an integrated AI chatbot for patient assistance, patient record management, and staff scheduling. Built with a PHP backend API, a MySQL database, and an HTML/CSS, JavaScript, and Bootstrap frontend.",
+    stack: ["PHP", "MySQL", "HTML/CSS", "JavaScript", "Bootstrap", "REST API"],
     kind: "Web · Healthcare",
     images: [
       { src: ADMIN_VIDEO, kind: "video", label: "Admin Panel · Walkthrough", highlight: true, view: "admin" },
@@ -80,9 +80,9 @@ const projects: {
     n: "02",
     title: "Online Learning Platform — PTC Nueva Ecija",
     blurb:
-      "A learning platform with Admin and Trainee portals: course management, learning materials, randomized assessments, and digital certification. Currently being rebuilt in React with Supabase for authentication, database, and file storage.",
-    stack: ["React", "Supabase", "JavaScript", "REST APIs", "Auth"],
-    kind: "Web · LMS · In progress",
+      "A learning platform with Admin and Trainee portals: course management, learning materials, randomized assessments, and digital certification. Built with PHP and MySQL on the backend and an HTML/CSS, JavaScript, and Bootstrap frontend.",
+    stack: ["PHP", "MySQL", "HTML/CSS", "JavaScript", "Bootstrap"],
+    kind: "Web · LMS",
     images: [
       ...PTC_TRAINEE_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Trainee View", view: "trainee" as const })),
       ...PTC_ADMIN_IMAGES.map((src) => ({ src, kind: "image" as const, label: "Admin View", view: "admin" as const })),
@@ -93,7 +93,7 @@ const projects: {
     n: "03",
     title: "Lost and Found Mobile Application",
     blurb:
-      "An Android app for reporting and tracking missing persons, with authentication, image uploads, push notifications, and a REST-backed database.",
+      "An Android app for reporting and tracking missing items. Finders and claimers are connected through a built-in chat, and a hand-over verification system secures every return: the finder holds two digits missing from the claimer's verification code, and the claimer holds two digits missing from the finder's code — so when they meet up and hand over the item, each completes the other's code to verify the exchange.",
     stack: ["Java", "PHP", "MySQL", "REST API"],
     kind: "Mobile · Android",
     images: LF_IMAGES.map((src) => ({ src, kind: "image" as const })),
